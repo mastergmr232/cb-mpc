@@ -68,3 +68,5 @@ Produce a **detailed, structured, and evidence-backed report** (referencing spec
 *   Provide this report in a clear, machine-readable format if possible (e.g., structured Markdown), but human-readable text is primary.
 *   Focus on extracting facts from the code and avoid speculation beyond what the code structure strongly implies.
 *   The goal is to arm the subsequent LLM (Gemini) with the best possible starting context.
+
+Only focus on actual code files, not configuraiton files or setup scripts. 
