@@ -50,21 +50,21 @@ sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/c
 # ---- Build and Install Tweaked OpenSSL ----
 WORK_DIR="/tmp/build_openssl"
 OPENSSL_SCRIPT="build-static-openssl-linux.sh"
-OPENSSL_PATH="/usr/local/opt/openssl@3.2.0"
+OPENSSL_SCRIPT_URL="https://raw.githubusercontent.com/mastergmr232/cb-mpc/refs/heads/master/scripts/openssl/build-static-openssl-linux.sh"
 
 mkdir -p "$WORK_DIR"
 cd "$WORK_DIR"
 
-# Place your build-static-openssl-linux.sh script here or download it
-# Example: wget https://yourdomain/scripts/openssl/build-static-openssl-linux.sh
+# Download the OpenSSL build script if it's not already present
 if [[ ! -f $OPENSSL_SCRIPT ]]; then
-    echo "Please place $OPENSSL_SCRIPT in $WORK_DIR before running this script."
-    exit 1
+    wget "$OPENSSL_SCRIPT_URL" -O "$OPENSSL_SCRIPT"
+    chmod +x "$OPENSSL_SCRIPT"
 fi
 
 chmod +x "$OPENSSL_SCRIPT"
 ./"$OPENSSL_SCRIPT"
 
+OPENSSL_PATH="/usr/local/opt/openssl@3.2.0"
 sudo mkdir -p /usr/local/lib64 /usr/local/lib /usr/local/include
 sudo ln -sf "$OPENSSL_PATH/lib64/libcrypto.a" /usr/local/lib64/libcrypto.a
 sudo ln -sf "$OPENSSL_PATH/lib64/libcrypto.a" /usr/local/lib/libcrypto.a
