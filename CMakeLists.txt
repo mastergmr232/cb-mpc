@@ -57,6 +57,17 @@ if(ENABLE_O3)
   set_cxx_flags("-O3")
 endif()
 
+# ================= ASAN Support for Debug Builds ======================
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message(STATUS "AddressSanitizer (ASan) ENABLED for Debug build.")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
+  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fsanitize=address -fno-omit-frame-pointer -g")
+  set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
+  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fsanitize=address")
+endif()
+
+
 if(ENABLE_VALIDATION)
   add_definitions("-DENABLE_VALIDATION")
 endif()
