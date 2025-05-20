@@ -8,6 +8,15 @@ project(
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# ================= ASAN & UBSAN Support: ENABLED FOR ALL BUILDS ======================
+message(STATUS "ASan and UBSan ENABLED for ALL build types.")
+
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -g")
+set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address,undefined")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fsanitize=address,undefined")
+
 # ------------- Available options ---------------
 # * CMAKE_BUILD_TYPE (Release|Debug|RelWithDebInfo)
 option(CBMPC_PLATFORM_DEP_OUTPUT_DIR
@@ -15,7 +24,6 @@ option(CBMPC_PLATFORM_DEP_OUTPUT_DIR
 
 option(BUILD_TESTS "Also build the unit and integration tests" ON)
 option(BUILD_DUDECT "Also build the dudect tests" OFF)
-
 
 # ------------- Setup pathes --------------------
 
@@ -56,17 +64,6 @@ endif()
 if(ENABLE_O3)
   set_cxx_flags("-O3")
 endif()
-
-# ================= ASAN Support for Debug Builds ======================
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-  message(STATUS "AddressSanitizer (ASan) ENABLED for Debug build.")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
-  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fsanitize=address -fno-omit-frame-pointer -g")
-  set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
-  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fsanitize=address")
-endif()
-
 
 if(ENABLE_VALIDATION)
   add_definitions("-DENABLE_VALIDATION")
