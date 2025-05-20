@@ -108,7 +108,9 @@ add_subdirectory(src/cbmpc/protocol)
 # ------------- Tests ---------------------------
 
 if(NOT IS_MACOS)
-  set(USE_FETCH_CONTENT true)
+  # Disable FetchContent to avoid network access during builds. Use vendored
+  # googletest instead.
+  set(USE_FETCH_CONTENT false)
 endif()
 
 if(BUILD_TESTS)
